@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eric Berne 交互分析心理学 - 可视化指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        * {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .ego-state {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .ego-state:hover {
+            transform: scale(1.05);
+        }
+        
+        .game-card {
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .game-card:hover {
+            background-color: #f8fafc;
+        }
+        
+        .script-element {
+            transition: all 0.3s ease;
+        }
+        
+        .script-element:hover {
+            background-color: #e0e7ff;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #667eea;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% - 12px);
+            background: #e2e8f0;
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid #667eea;
+            color: #667eea;
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .collapsible-content.active {
+            max-height: 2000px;
+        }
+        
+        .diagram-container {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">交互分析心理学</h1>
+            <p class="text-xl opacity-90 mb-2">Transactional Analysis (TA)</p>
+            <p class="text-lg opacity-80">Eric Berne 经典著作可视化指南</p>
+            <div class="mt-6 flex flex-wrap gap-4">
+                <span class="bg-white/20 px-4 py-2 rounded-full text-sm">《人间游戏》</span>
+                <span class="bg-white/20 px-4 py-2 rounded-full text-sm">《人生脚本》</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex overflow-x-auto">
+                <button onclick="showSection('overview')" class="tab-btn tab-active px-6 py-4 font-medium whitespace-nowrap" data-section="overview">理论概览</button>
+                <button onclick="showSection('ego-states')" class="tab-btn px-6 py-4 font-medium whitespace-nowrap text-gray-600" data-section="ego-states">自我状态</button>
+                <button onclick="showSection('transactions')" class="tab-btn px-6 py-4 font-medium whitespace-nowrap text-gray-600" data-section="transactions">交互类型</button>
+                <button onclick="showSection('games')" class="tab-btn px-6 py-4 font-medium whitespace-nowrap text-gray-600" data-section="games">心理游戏</button>
+                <button onclick="showSection('script')" class="tab-btn px-6 py-4 font-medium whitespace-nowrap text-gray-600" data-section="script">人生脚本</button>
+                <button onclick="showSection('autonomy')" class="tab-btn px-6 py-4 font-medium whitespace-nowrap text-gray-600" data-section="autonomy">自主与亲密</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        
+        <!-- Section 1: Overview -->
+        <section id="overview" class="section-content">
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white rounded-2xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="book-open" class="w-8 h-8 text-indigo-600 mr-3"></i>
+                        <h2 class="text-2xl font-bold text-gray-800">《人间游戏》</h2>
+                    </div>
+                    <p class="text-gray-600 mb-4">Games People Play (1964)</p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        本书揭示了人们在日常社交中无意识进行的"心理游戏"——那些看似正常交流，实则隐藏着隐藏动机和可预测结局的互动模式。
+                    </p>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2 mt-0.5"></i>识别36种常见心理游戏</li>
+                        <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2 mt-0.5"></i>理解游戏背后的隐藏动机</li>
+                        <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2 mt-0.5"></i>学习如何停止游戏，建立真诚关系</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="scroll" class="w-8 h-8 text-purple-600 mr-3"></i>
+                        <h2 class="text-2xl font-bold text-gray-800">《人生脚本》</h2>
+                    </div>
+                    <p class="text-gray-600 mb-4">What Do You Say After You Say Hello (1972)</p>
+                    <p class="text-gray-700 leading-relaxed mb-4">
+                        深入探讨"人生脚本"——我们在童年早期无意识制定的生命计划，它决定了我们的人生走向、职业选择和关系模式。
+                    </p>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2 mt-0.5"></i>探索脚本的童年起源</li>
+                        <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2 mt-0.5"></i>理解父母如何"编写"孩子的人生</li>
+                        <li class="flex items-start"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-2 mt-0.5"></i>学习如何重写脚本，获得自主</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Core Concepts -->
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">核心理论框架</h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="text-center p-6 bg-indigo-50 rounded-xl">
+                        <div class="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="users" class="w-8 h-8 text-white"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">自我状态</h4>
+                        <p class="text-gray-600 text-sm">Parent（父母）、Adult（成人）、Child（儿童）三种心理状态</p>
+                    </div>
+                    <div class="text-center p-6 bg-purple-50 rounded-xl">
+                        <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="shuffle" class="w-8 h-8 text-white"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">交互分析</h4>
+                        <p class="text-gray-600 text-sm">互补、交叉、隐藏三种交互类型</p>
+                    </div>
+                    <div class="text-center p-6 bg-pink-50 rounded-xl">
+                        <div class="w-16 h-16 bg-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="gamepad-2" class="w-8 h-8 text-white"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">心理游戏</h4>
+                        <p class="text-gray-600 text-sm">重复性的、有隐藏动机的互动模式</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Structuring -->
+            <div class="bg-white rounded-2xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">时间结构化层次</h3>
+                <p class="text-gray-600 mb-6">人们如何在社交中安排时间，从最简单的仪式到最深刻的亲密</p>
+                <div class="relative">
+                    <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4">
+                        <div class="flex-1 bg-gray-100 rounded-lg p-4 text-center">
+                            <div class="font-bold text-gray-800">仪式 Rituals</div>
+                            <div class="text-sm text-gray-600 mt-1">程式化的问候与礼节</div>
+                            <div class="text-xs text-gray-500 mt-2">"你好" "吃了吗"</div>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-6 h-6 text-gray-400 hidden md:block"></i>
+                        <i data-lucide="arrow-down" class="w-6 h-6 text-gray-400 md:hidden"></i>
+                        <div class="flex-1 bg-blue-50 rounded-lg p-4 text-center">
+                            <div class="font-bold text-blue-800">消遣 Pastimes</div>
+                            <div class="text-sm text-gray-600 mt-1">半仪式化的社交话题</div>
+                            <div class="text-xs text-gray-500 mt-2">天气、新闻、八卦</div>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-6 h-6 text-gray-400 hidden md:block"></i>
+                        <i data-lucide="arrow-down" class="w-6 h-6 text-gray-400 md:hidden"></i>
+                        <div class="flex-1 bg-orange-50 rounded-lg p-4 text-center">
+                            <div class="font-bold text-orange-800">游戏 Games</div>
+                            <div class="text-sm text-gray-600 mt-1">有隐藏动机的互动</div>
+                            <div class="text-xs text-gray-500 mt-2">重复性、可预测结局</div>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-6 h-6 text-gray-400 hidden md:block"></i>
+                        <i data-lucide="arrow-down" class="w-6 h-6 text-gray-400 md:hidden"></i>
+                        <div class="flex-1 bg-green-50 rounded-lg p-4 text-center">
+                            <div class="font-bold text-green-800">亲密 Intimacy</div>
+                            <div class="text-sm text-gray-600 mt-1">真诚的、自发的交流</div>
+                            <div class="text-xs text-gray-500 mt-2">无游戏、无脚本</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Ego States -->
+        <section id="ego-states" class="section-content hidden">
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">PAC模型：三种自我状态</h3>
+                <p class="text-gray-600 mb-8">每个人内心都存在三种不同的心理状态，它们决定了我们的思维、感受和行为方式。</p>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Parent -->
+                    <div class="ego-state bg-red-50 rounded-xl p-6 border-2 border-red-200" onclick="toggleEgoDetail('parent')">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-14 h-14 bg-red-500 rounded-full flex items-center justify-center">
+                                <i data-lucide="user" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <span class="text-red-600 font-bold text-lg">P</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-2">父母 Parent</h4>
+                        <p class="text-gray-600 text-sm mb-4">来自父母的言行记录，包含规则、价值观和养育行为</p>
+                        <div id="parent-detail" class="hidden mt-4 pt-4 border-t border-red-200">
+                            <div class="space-y-2 text-sm">
+                                <p><strong>营养型父母：</strong>关怀、保护、支持</p>
+                                <p><strong>控制型父母：</strong>规则、批评、命令</p>
+                                <p class="text-gray-500 italic mt-3">"你应该..." "不许..." "好孩子应该..."</p>
+                            </div>
+                        </div>
+                        <div class="text-red-500 text-sm mt-2 flex items-center">
+                            <span>点击查看详情</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i>
+                        </div>
+                    </div>
+
+                    <!-- Adult -->
+                    <div class="ego-state bg-blue-50 rounded-xl p-6 border-2 border-blue-200" onclick="toggleEgoDetail('adult')">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center">
+                                <i data-lucide="brain" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <span class="text-blue-600 font-bold text-lg">A</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-2">成人 Adult</h4>
+                        <p class="text-gray-600 text-sm mb-4">客观、理性地处理信息，基于现实做出决策</p>
+                        <div id="adult-detail" class="hidden mt-4 pt-4 border-t border-blue-200">
+                            <div class="space-y-2 text-sm">
+                                <p><strong>功能：</strong>信息处理、逻辑分析、概率估算</p>
+                                <p><strong>特点：</strong>客观、理性、基于事实</p>
+                                <p class="text-gray-500 italic mt-3">"数据显示..." "让我们分析一下..." "根据经验..."</p>
+                            </div>
+                        </div>
+                        <div class="text-blue-500 text-sm mt-2 flex items-center">
+                            <span>点击查看详情</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i>
+                        </div>
+                    </div>
+
+                    <!-- Child -->
+                    <div class="ego-state bg-yellow-50 rounded-xl p-6 border-2 border-yellow-200" onclick="toggleEgoDetail('child')">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-14 h-14 bg-yellow-500 rounded-full flex items-center justify-center">
+                                <i data-lucide="baby" class="w-7 h-7 text-white"></i>
+                            </div>
+                            <span class="text-yellow-600 font-bold text-lg">C</span>
+                        </div>
+                        <h4 class="font-bold text-xl text-gray-800 mb-2">儿童 Child</h4>
+                        <p class="text-gray-600 text-sm mb-4">童年时期的情感、冲动和创造性反应</p>
+                        <div id="child-detail" class="hidden mt-4 pt-4 border-t border-yellow-200">
+                            <div class="space-y-2 text-sm">
+                                <p><strong>自然儿童：</strong>自发、创造性、直觉</p>
+                                <p><strong>适应型儿童：</strong>顺从、反叛、妥协</p>
+                                <p class="text-gray-500 italic mt-3">"我想要..." "这不公平！" "太棒了！"</p>
+                            </div>
+                        </div>
+                        <div class="text-yellow-600 text-sm mt-2 flex items-center">
+                            <span>点击查看详情</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Structural Diagram -->
+            <div class="bg-white rounded-2xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6">结构图示例</h3>
+                <div class="diagram-container rounded-xl p-8">
+                    <div class="max-w-md mx-auto">
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                            <div class="bg-red-100 p-6 text-center border-b-2 border-red-200">
+                                <div class="font-bold text-red-800 text-lg">父母 Parent</div>
+                                <div class="text-red-600 text-sm mt-1">"努力工作" "要负责任"</div>
+                            </div>
+                            <div class="bg-blue-100 p-6 text-center border-b-2 border-blue-200">
+                                <div class="font-bold text-blue-800 text-lg">成人 Adult</div>
+                                <div class="text-blue-600 text-sm mt-1">"分析情况" "做出决策"</div>
+                            </div>
+                            <div class="bg-yellow-100 p-6 text-center">
+                                <div class="font-bold text-yellow-800 text-lg">儿童 Child</div>
+                                <div class="text-yellow-700 text-sm mt-1">"我想玩" "我害怕" "我开心"</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-gray-600 mt-6">每个人内心都包含这三种状态，它们可以随时切换</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Transactions -->
+        <section id="transactions" class="section-content hidden">
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">三种交互类型</h3>
+                <p class="text-gray-600 mb-8">人与人之间的互动可以是顺畅的，也可以是受阻的，取决于双方自我状态的匹配。</p>
+
+                <!-- Complementary -->
+                <div class="mb-8 p-6 bg-green-50 rounded-xl border-l-4 border-green-500">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                            <i data-lucide="check" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800">互补交互 Complementary</h4>
+                    </div>
+                    <p class="text-gray-700 mb-4">刺激和回应来自平行的自我状态，交流可以无限继续下去。</p>
+                    <div class="bg-white rounded-lg p-4">
+                        <div class="flex items-center justify-around">
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <span class="text-white font-bold">A</span>
+                                </div>
+                                <div class="text-sm text-gray-600">"现在几点了？"</div>
+                            </div>
+                            <i data-lucide="arrow-right" class="w-8 h-8 text-green-500"></i>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <span class="text-white font-bold">A</span>
+                                </div>
+                                <div class="text-sm text-gray-600">"三点半。"</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crossed -->
+                <div class="mb-8 p-6 bg-orange-50 rounded-xl border-l-4 border-orange-500">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center mr-3">
+                            <i data-lucide="x" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800">交叉交互 Crossed</h4>
+                    </div>
+                    <p class="text-gray-700 mb-4">刺激和回应来自交叉的自我状态，交流受阻，可能引发冲突或结束对话。</p>
+                    <div class="bg-white rounded-lg p-4">
+                        <div class="flex items-center justify-around mb-4">
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <span class="text-white font-bold">A</span>
+                                </div>
+                                <div class="text-sm text-gray-600">"现在几点了？"</div>
+                            </div>
+                            <i data-lucide="arrow-right" class="w-8 h-8 text-orange-500"></i>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                                    <span class="text-white font-bold">P</span>
+                                </div>
+                                <div class="text-sm text-gray-600">"你又要迟到了！"</div>
+                            </div>
+                        </div>
+                        <div class="text-center text-orange-600 text-sm">交流中断，可能引发争论</div>
+                    </div>
+                </div>
+
+                <!-- Ulterior -->
+                <div class="p-6 bg-purple-50 rounded-xl border-l-4 border-purple-500">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mr-3">
+                            <i data-lucide="layers" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800">隐藏交互 Ulterior</h4>
+                    </div>
+                    <p class="text-gray-700 mb-4">表面上是社会层面的交流，实际上隐藏着心理层面的游戏邀请。</p>
+                    <div class="bg-white rounded-lg p-4">
+                        <div class="flex flex-col items-center">
+                            <div class="text-sm text-gray-500 mb-2">社会层面</div>
+                            <div class="flex items-center justify-around w-full mb-4">
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                                        <span class="text-white font-bold">A</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">"来我家吃饭吧"</div>
+                                </div>
+                                <i data-lucide="arrow-right" class="w-8 h-8 text-blue-400"></i>
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                                        <span class="text-white font-bold">A</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">"好啊，谢谢"</div>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-500 mb-2">心理层面</div>
+                            <div class="flex items-center justify-around w-full">
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                                        <span class="text-white font-bold">C</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">"来被我照顾吧"</div>
+                                </div>
+                                <i data-lucide="arrow-right" class="w-8 h-8 text-purple-400"></i>
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                                        <span class="text-white font-bold">C</span>
+                                    </div>
+                                    <div class="text-sm text-gray-600">"好，照顾我"</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Games -->
+        <section id="games" class="section-content hidden">
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">什么是心理游戏？</h3>
+                <p class="text-gray-600 mb-6">心理游戏是一系列重复的、有隐藏动机的互动，最终产生可预测的不良结局。</p>
+                
+                <div class="bg-indigo-50 rounded-xl p-6 mb-8">
+                    <h4 class="font-bold text-lg text-indigo-800 mb-4">游戏的特征</h4>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <i data-lucide="repeat" class="w-5 h-5 text-indigo-600 mr-2 mt-0.5"></i>
+                            <div>
+                                <div class="font-medium">重复性</div>
+                                <div class="text-sm text-gray-600">同样的模式反复出现</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="eye-off" class="w-5 h-5 text-indigo-600 mr-2 mt-0.5"></i>
+                            <div>
+                                <div class="font-medium">隐藏动机</div>
+                                <div class="text-sm text-gray-600">表面目的与真实目的不同</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="target" class="w-5 h-5 text-indigo-600 mr-2 mt-0.5"></i>
+                            <div>
+                                <div class="font-medium">可预测结局</div>
+                                <div class="text-sm text-gray-600">总是以相同的负面结果结束</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i data-lucide="zap" class="w-5 h-5 text-indigo-600 mr-2 mt-0.5"></i>
+                            <div>
+                                <div class="font-medium">情感收益</div>
+                                <div class="text-sm text-gray-600">获得某种心理需求的满足</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="text-xl font-bold text-gray-800 mb-4">常见心理游戏分类</h4>
+                
+                <!-- Life Games -->
+                <div class="mb-6">
+                    <button onclick="toggleGameCategory('life')" class="w-full flex items-center justify-between p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">
+                        <div class="flex items-center">
+                            <i data-lucide="heart-pulse" class="w-6 h-6 text-red-600 mr-3"></i>
+                            <span class="font-bold text-gray-800">生活游戏 Life Games</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-gray-600"></i>
+                    </button>
+                    <div id="life-games" class="collapsible-content">
+                        <div class="p-4 space-y-3">
+                            <div class="game-card bg-white p-4 rounded-lg shadow-sm border-l-red-500">
+                                <div class="font-bold text-gray-800">酒鬼 Alcoholic</div>
+                                <div class="text-sm text-gray-600 mt-1">通过酗酒获得"可怜的受害者"角色，让他人扮演"拯救者"</div>
+                                <div class="text-xs text-gray-500 mt-2">结局：自我毁灭，他人疲惫</div>
+                            </div>
+                            <div class="game-card bg-white p-4 rounded-lg shadow-sm border-l-red-500">
+                                <div class="font-bold text-gray-800">踢我 Kick Me</div>
+                                <div class="text-sm text-gray-600 mt-1">通过自我贬低邀请他人批评，获得"被压迫者"身份</div>
+                                <div class="text-xs text-gray-500 mt-2">结局：强化自卑感，疏远关系</div>
+                            </div>
+                            <div class="game-card bg-white p-4 rounded-lg shadow-sm border-l-red-500">
+                                <div class="font-bold text-gray-800">现在抓到你了 Now I've Got You</div>
+                                <div class="text-sm text-gray-600 mt-1">等待他人犯错，然后猛烈攻击，获得道德优越感</div>
+                                <div class="text-xs text-gray-500 mt-2">结局：他人防御或离开，孤立自己</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marital Games -->
+                <div class="mb-6">
+                    <button onclick="toggleGameCategory('marital')" class="w-full flex items-center justify-between p-4 bg-pink-50 rounded-xl hover:bg-pink-100 transition-colors">
+                        <div class="flex items-center">
+                            <i data-lucide="heart" class="w-6 h-6 text-pink-600 mr-3"></i>
+                            <span class="font-bold text-gray-800">婚姻游戏 Marital Games</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-gray-600"></i>
+                    </button>
+                    <div id="marital-games" class="collapsible-content">
+                        <div class="p-4 space-y-3">
+                            <div class="game-card bg-white p-4 rounded-lg shadow-sm border-l-pink-500">
+                                <div class="font-bold text-gray-800">法庭 Courtroom</div>
+                                <div class="text-sm text-gray-600 mt-1">夫妻把孩子当作法官，互相控诉对方的不是</div>
+                                <div class="text-xs text-gray-500 mt-2">结局：孩子被迫选边，家庭关系破裂</div>
+                            </div>
+                            <div class="game-card bg-white p-4 rounded-lg shadow-sm border-l-pink-500">
+                                <div class="font-bold text-gray-800">要不是你 If It Weren't for You</div>
+                                <div class="text-sm text-gray-600 mt-1">把自己的失败归咎于配偶的限制</div>
+                                <div class="text-xs text-gray-500 mt-2">结局：逃避责任，关系充满怨恨</div>
+                            </div>
+                            <div class="game-card bg-white p-4 rounded-lg shadow-sm border-l-pink-500">
+                                <div class="font-bold text-gray-800">看我多努力 Look How Hard I've Tried</div>
+                                <div class="text-sm text-gray-600 mt-1">表面努力解决问题，实际确保失败，获得"殉道者"角色</div>
+                                <div class="text-xs text-gray-500 mt-2">结局：问题持续，自我感动</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Party Games -->
+                <div class="mb-6">
+                    <button onclick="toggleGameCategory('party')" class="w-full flex items-center justify-between p-4 bg-purple-50 rounded-xl hover:bg-purple-100 transition-colors">
+                        <div class="flex items-center">
+                            <i data-lucide="party-popper" class="w-6 h-6 text-purple-600 mr-3"></i>
+                            <span class="font-bold text-gray-800">社交游戏 Party Games</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-gray-600"></i>
+                    </button>
+                    <div id="party-games" class="collapsible-content">
+                        <div class="p-4 space-y-3">
+                            <div class="game-card bg-white p-4 rounded-lg shadow-sm border-l-purple-500">
+                                <div class="font-bold text-gray-800">岂不可惜 Ain't It Awful</div>
+                                <div class="text-sm text-gray-600 mt-1">通过抱怨生活中的不幸来获得关注和同情</div>
+                                <div class="text-xs text-gray-500 mt-2">结局：强化受害者身份，无法真正改变</div>
+                            </div>
+                            <div class="game-card bg-white p-4 rounded-lg shadow-sm border-l-purple-500">
+                                <div class="font-bold text-gray-800">你为什么不-是的但是 Why Don't You - Yes But</div>
+                                <div class="text-sm text-gray-600 mt-1">寻求建议，但拒绝所有建议，证明问题无解</div>
+                                <div class="text-xs text-gray-500 mt-2">结局：他人放弃帮助，自己继续抱怨</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sexual Games -->
+                <div class="mb-6">
+                    <button onclick="toggleGameCategory('sexual')" class="w-full flex items-center justify-between p-4 bg-orange-50 rounded-xl hover:bg-orange-100 transition-colors">
+                        <div class="flex items-center">
+                            <i data-lucide="flame" class="w-6 h-6 text-orange-600 mr-3"></i>
+                            <span class="font-bold text-gray-800">性游戏 Sexual Games</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-gray-600"></i>
+                    </button>
+                    <div id="sexual-games" class="collapsible-content">
+                        <div class="p-4 space-y-3">
+                            <div class="game-card bg-white p-4 rounded-lg shadow-sm border-l-orange-500">
+                                <div class="font-bold text-gray-800">拉波 Rapo</div>
+                                <div class="text-sm text-gray-600 mt-1">女性发出性邀请信号，当男性回应时指责他性骚扰</div>
+                                <div class="text-xs text-gray-500 mt-2">结局：男性困惑或愤怒，女性获得道德优越感</div>
+                            </div>
+                            <div class="game-card bg-white p-4 rounded-lg shadow-sm border-l-orange-500">
+                                <div class="font-bold text-gray-800">让你和他打 Let's You and Him Fight</div>
+                                <div class="text-sm text-gray-600 mt-1">女性挑起两个男性之间的竞争，从中获得关注</div>
+                                <div class="text-xs text-gray-500 mt-2">结局：男性关系破裂，女性成为"奖品"</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Script -->
+        <section id="script" class="section-content hidden">
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">人生脚本 Life Script</h3>
+                <p class="text-gray-600 mb-8">我们在童年早期（通常5-7岁前）无意识制定的人生计划，它决定了我们的人生走向、职业选择和关系模式。</p>
+
+                <!-- Script Formation -->
+                <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 mb-8">
+                    <h4 class="font-bold text-lg text-gray-800 mb-4">脚本的形成过程</h4>
+                    <div class="space-y-4">
+                        <div class="timeline-item">
+                            <div class="font-medium text-gray-800">早期决定</div>
+                            <div class="text-sm text-gray-600">童年面对困境时做出的生存性决定</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="font-medium text-gray-800">父母编程</div>
+                            <div class="text-sm text-gray-600">父母通过言语和非言语传递的"应该"和"禁止"</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="font-medium text-gray-800">文化影响</div>
+                            <div class="text-sm text-gray-600">家庭、社会、文化背景的塑造</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="font-medium text-gray-800">脚本实现</div>
+                            <div class="text-sm text-gray-600">成年后无意识地按照脚本生活</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Script Types -->
+                <h4 class="text-xl font-bold text-gray-800 mb-4">脚本类型</h4>
+                <div class="grid md:grid-cols-3 gap-4 mb-8">
+                    <div class="script-element bg-red-50 p-4 rounded-xl border-2 border-red-200">
+                        <div class="flex items-center mb-2">
+                            <i data-lucide="skull" class="w-5 h-5 text-red-600 mr-2"></i>
+                            <span class="font-bold text-red-800">悲剧脚本</span>
+                        </div>
+                        <p class="text-sm text-gray-600">以死亡、失败或毁灭为结局的脚本</p>
+                        <div class="text-xs text-gray-500 mt-2">例："我终将孤独死去"</div>
+                    </div>
+                    <div class="script-element bg-yellow-50 p-4 rounded-xl border-2 border-yellow-200">
+                        <div class="flex items-center mb-2">
+                            <i data-lucide="frown" class="w-5 h-5 text-yellow-600 mr-2"></i>
+                            <span class="font-bold text-yellow-800">平庸脚本</span>
+                        </div>
+                        <p class="text-sm text-gray-600">过着平淡、无成就、不满意的生活</p>
+                        <div class="text-xs text-gray-500 mt-2">例："我只能这样过一辈子"</div>
+                    </div>
+                    <div class="script-element bg-green-50 p-4 rounded-xl border-2 border-green-200">
+                        <div class="flex items-center mb-2">
+                            <i data-lucide="sun" class="w-5 h-5 text-green-600 mr-2"></i>
+                            <span class="font-bold text-green-800">赢家脚本</span>
+                        </div>
+                        <p class="text-sm text-gray-600">实现目标，获得满足感和幸福感</p>
+                        <div class="text-xs text-gray-500 mt-2">例："我可以创造想要的生活"</div>
+                    </div>
+                </div>
+
+                <!-- Script Components -->
+                <h4 class="text-xl font-bold text-gray-800 mb-4">脚本的组成部分</h4>
+                <div class="space-y-4">
+                    <div class="flex items-start p-4 bg-gray-50 rounded-lg">
+                        <div class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <span class="text-white text-sm font-bold">1</span>
+                        </div>
+                        <div>
+                            <div class="font-bold text-gray-800">禁止信息 Injunctions</div>
+                            <div class="text-sm text-gray-600 mt-1">父母传递的"不要做"的信息，如"不要成功""不要长大""不要健康"</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 bg-gray-50 rounded-lg">
+                        <div class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <span class="text-white text-sm font-bold">2</span>
+                        </div>
+                        <div>
+                            <div class="font-bold text-gray-800">驱力 Drivers</div>
+                            <div class="text-sm text-gray-600 mt-1">为应对禁止信息而发展的行为模式：要完美、要努力、要取悦他人、要坚强、要赶快</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 bg-gray-50 rounded-lg">
+                        <div class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <span class="text-white text-sm font-bold">3</span>
+                        </div>
+                        <div>
+                            <div class="font-bold text-gray-800">早期决定 Early Decisions</div>
+                            <div class="text-sm text-gray-600 mt-1">童年为生存和适应而做的决定，如"我不值得被爱""我必须照顾所有人"</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 bg-gray-50 rounded-lg">
+                        <div class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <span class="text-white text-sm font-bold">4</span>
+                        </div>
+                        <div>
+                            <div class="font-bold text-gray-800">脚本结局 Script Payoff</div>
+                            <div class="text-sm text-gray-600 mt-1">脚本预言的最终结果，通常在生命的特定阶段实现</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Autonomy -->
+        <section id="autonomy" class="section-content hidden">
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">获得自主 Autonomy</h3>
+                <p class="text-gray-600 mb-8">摆脱游戏和脚本的束缚，获得真正的自由和亲密能力。</p>
+
+                <!-- Three Components -->
+                <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-blue-50 rounded-xl p-6 text-center">
+                        <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="eye" class="w-8 h-8 text-white"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-gray-800 mb-2">觉察 Awareness</h4>
+                        <p class="text-sm text-gray-600">对自己、他人和环境的真实感知，活在此时此地</p>
+                    </div>
+                    <div class="bg-green-50 rounded-xl p-6 text-center">
+                        <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="zap" class="w-8 h-8 text-white"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-gray-800 mb-2">自发 Spontaneity</h4>
+                        <p class="text-sm text-gray-600">根据当下情况自由选择反应，而非被脚本控制</p>
+                    </div>
+                    <div class="bg-purple-50 rounded-xl p-6 text-center">
+                        <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="heart-handshake" class="w-8 h-8 text-white"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-gray-800 mb-2">亲密 Intimacy</h4>
+                        <p class="text-sm text-gray-600">真诚、开放、无游戏的情感交流</p>
+                    </div>
+                </div>
+
+                <!-- Path to Autonomy -->
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-6">
+                    <h4 class="font-bold text-lg text-gray-800 mb-4">通往自主的路径</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-indigo-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-white font-bold">1</span>
+                            </div>
+                            <div class="flex-1 bg-white rounded-lg p-3">
+                                <div class="font-medium text-gray-800">识别游戏</div>
+                                <div class="text-sm text-gray-600">觉察自己和他人的游戏模式</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-indigo-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-white font-bold">2</span>
+                            </div>
+                            <div class="flex-1 bg-white rounded-lg p-3">
+                                <div class="font-medium text-gray-800">探索脚本</div>
+                                <div class="text-sm text-gray-600">理解自己的人生脚本来源和内容</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-indigo-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-white font-bold">3</span>
+                            </div>
+                            <div class="flex-1 bg-white rounded-lg p-3">
+                                <div class="font-medium text-gray-800">重新决定</div>
+                                <div class="text-sm text-gray-600">做出新的、健康的早期决定</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-indigo-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-white font-bold">4</span>
+                            </div>
+                            <div class="flex-1 bg-white rounded-lg p-3">
+                                <div class="font-medium text-gray-800">实践新行为</div>
+                                <div class="text-sm text-gray-600">在日常生活中尝试新的互动方式</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <i data-lucide="check" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <div class="flex-1 bg-green-100 rounded-lg p-3">
+                                <div class="font-medium text-green-800">获得自主</div>
+                                <div class="text-sm text-green-600">成为自己人生的主人，建立真诚关系</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 px-4 mt-12">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-gray-400">基于 Eric Berne 的交互分析理论</p>
+            <p class="text-gray-500 text-sm mt-2">《Games People Play》(1964) & 《What Do You Say After You Say Hello》(1972)</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab switching
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.remove('hidden');
+            
+            // Update tab styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-gray-600');
+            });
+            
+            document.querySelector(`[data-section="${sectionId}"]`).classList.add('tab-active');
+            document.querySelector(`[data-section="${sectionId}"]`).classList.remove('text-gray-600');
+            
+            // Reinitialize icons for new content
+            lucide.createIcons();
+        }
+
+        // Toggle ego state details
+        function toggleEgoDetail(state) {
+            const detail = document.getElementById(`${state}-detail`);
+            detail.classList.toggle('hidden');
+        }
+
+        // Toggle game categories
+        function toggleGameCategory(category) {
+            const content = document.getElementById(`${category}-games`);
+            content.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
